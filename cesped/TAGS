@@ -1,32 +1,0 @@
-
-cesped.py,18
-def start(14,511
-
-controlador.py,200
-class Controlador:Controlador22,754
-    def __init__(23,773
-    def iniciar(37,1343
-    def stop(44,1581
-    def obtener_dato(48,1679
-    def componer_dato(53,1854
-    def enviar_dato(60,2082
-
-endpoint.py,81
-class EndPoint:EndPoint23,747
-    def __init__(24,763
-    def enviar(36,1175
-
-tarea.py,87
-class Tarea(19,579
-    def __init__(20,610
-    def run(27,791
-    def stop(37,1208
-
-utilidades.py,66
-def func_nome(20,588
-def identidad(23,615
-def timestamp(27,710
-
-__init__.py,0
-
-configure.py,0

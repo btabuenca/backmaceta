@@ -20,7 +20,7 @@ import cesped.utilidades as utils
 ENDPOINT_THINGSBOARD=""
 
 # Token necesario para la autentificación en el servidor Thingsboard
-ENDPOINT_THINGSBOARD_TOKEN=""
+ENDPOINT_THINGSBOARD_TOKEN = ""
 
 # Lista de tuplas: (clase sensor, nombre, {parametros})
 LISTA_CONTROLADORES = [('Controlador','temp-1',{'f_lector':utils.identidad})]
