@@ -1,15 +1,20 @@
 # -*- mode: python; coding: utf-8 -*-
 #
-################################################################################
+###########################################################################
 # Filename:    tarea.py
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Project:     C.E.S.P.E.D.
 # Author:      José L. Domenech
 # Description:
-#-------------------------------------------------------------------------------
+#
+#   Ejecuta una función (sin parámetros) de forma periódica (cada N
+#   segundos o fracción de segundo)
+#
+# Requiere:    threading, time
+# -------------------------------------------------------------------------
 # Historia:
 #   + 05/11/2019 - First version
-################################################################################
+###########################################################################
 
 import threading
 import time
@@ -27,16 +32,18 @@ class Tarea(threading.Thread):
         self.periodo    = ms
 
     def run(self):
-        ''' Thread.run '''
+        ''' `Thread.run' (forma parte de la API de `threading.Thread')'''
         while getattr(self, "ejecutando", True):
             t1 = utils.timestamp()
             self.funcion()
-            # NOTA: Bien, pero puede aparecer una desviación en la activación de una tarea
-            ms_espera = max(0,self.periodo - (utils.timestamp() - t1))
+            # NOTA: Bien, pero puede aparecer una desviación en la
+            # activación de una tarea
+            ms_espera = max(0, self.periodo - (utils.timestamp() - t1))
             time.sleep(ms_espera / utils.FLOAT_MS_IN_SEG)
             self.ejecutando = True
 
     def stop(self):
+        '''Para la tarea.'''
         self.ejecutando = False
 
     ejecutando = True

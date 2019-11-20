@@ -1,16 +1,19 @@
 # -*- mode: python; coding: utf-8 -*-
 #
-################################################################################
+###########################################################################
 # Filename:    utilidades.py
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Project:     C.E.S.P.E.D.
 # Author:      José L. Domenech
 # Description:
+#
 #   Varias utilidades
-#-------------------------------------------------------------------------------
+#
+# Requiere:    random, time
+# -------------------------------------------------------------------------
 # Historia:
 #   + 05/11/2019 - First version
-################################################################################
+###########################################################################
 
 import random
 import time
@@ -23,10 +26,9 @@ def identidad(arg):
     return arg
 
 
-class Constante:
-    """Clase que sirve de closure del valor pasado en la función
-obtener_valor
-"""
+class __Constante:
+    '''Clase que sirve de closure del valor pasado para la función
+`constantemente' '''
     def __init__(self, val):
         '''Constructor'''
         self.valor = val
@@ -39,7 +41,9 @@ obtener_valor
 
     
 def constantemente(arg):
-    c = Constante(arg)
+    '''Función que devuelve una función que siempre devuelve el mismo
+valor (el indicado en el parámetro)'''
+    c = __Constante(arg)
 
     return c.obtener_valor
 

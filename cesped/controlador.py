@@ -1,8 +1,8 @@
 # -*- mode: python; coding: utf-8 -*-
 #
-################################################################################
+###########################################################################
 # Filename:    controlador.py
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Project:     C.E.S.P.E.D.
 # Author:      José L. Domenech
 # Description:
@@ -12,21 +12,25 @@
 #   de endpoint) y su ejecución automatizada cada X ms
 #
 #
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Historia:
 #   + 05/11/2019 - First version
-################################################################################
+###########################################################################
 
 import cesped.utilidades as utils
 import cesped.tarea as tr
 
 
 class Controlador:
-    def __init__(self, nombre, periodo_ms=1000, f_lector=utils.constantemente(True), f_calibrador=utils.identidad, f_envio=utils.constantemente(True)):
-        ''' nombre:       string
-            f_lector:     f() -> D
-            f_calibrador: f(D) -> X
-            periodo_ms:   int
+    def __init__(self, nombre,
+                 periodo_ms=1000,
+                 f_lector=utils.constantemente(True),
+                 f_calibrador=utils.identidad,
+                 f_envio=utils.constantemente(True)):
+        ''' nombre:       string     - nombre de la propiedad que se controla
+            f_lector:     f() -> D   - función que obtiene/devuelve un dato
+            f_calibrador: f(D) -> X  - función que transforma un dato en otro
+            periodo_ms:   int        - periodo cíclico de ejecución de las funciones
             f_envio:      f(X) -> requests.Result'''
 
         self.nombre       = nombre
@@ -37,30 +41,36 @@ class Controlador:
         self.task         = tr.Tarea(self, self.enviar_dato, periodo_ms)
 
     def iniciar(self):
-        """inicia una tarea que cada `self.periodo_ms' ms recogerá (mediante
+        '''Inicia una tarea que cada `self.periodo_ms' ms recogerá (mediante
         `self.f_lector', trasformado por `self.f_calibrador') y enviará
-        un dato (mediante `f_envio')"""
+        un dato (mediante `f_envio')'''
 
         self.task.start()
 
     def parar(self):
-        "para la tarea de recogida y envio"
+        "Para la tarea de recogida, transformación y envio"
         self.task.parar()
 
     def obtener_dato(self):
-        """devuelve un dato leido mediante `self.f_lector' y tratado con
+        """Devuelve un dato leido mediante `self.f_lector' y tratado con
  `f_calibrador'"""
 
         return self.f_calibrador(self.f_lector())
 
     def componer_dato(self, dato):
-        """devuelve un formato listo para ser serializado de dato (lo
-        introduce en un dict)"""
+        '''Devuelve un formato listo para ser serializado en formato JSON.
+
+Utiliza un dict, al que añade un campo de timestamp 'ts', y el dato
+como campo del nombre del controlador)
+
+        '''
 
         return {'ts': utils.timestamp(), str(self.nombre): dato}
 
     def enviar_dato(self):
-        "obtiene (`obtener_dato') y envía un dato (usando `f_envio')"
+        '''Obtiene (`obtener_dato') y envía un dato (usando `f_envio').
+
+Es la función que se le pasa a la `cesped.tarea.Tarea' '''
 
         dato_envio = self.componer_dato(self.obtener_dato())
         return self.f_envio(dato_envio)
