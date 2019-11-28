@@ -24,7 +24,7 @@ def configurar():
     ctrl = cesped.controlador.Controlador(
         'temperature',
         f_envio=ep.enviar_post_json,
-        f_lector=cesped.utilidades.constantemente(18.3))
+        f_lector=cesped.utilidades.constantemente(20.1))
 
     return [ctrl]
 
@@ -50,10 +50,13 @@ Devuelve la misma lista con los controladores ya parados'''
         ctrl.parar()
 
 
-if __name__ == "__main__":
-
+def prueba():
     print("Iniciando controladores:")
     lst_ctr = configurar()
     for c in lst_ctr:
         print(c.nombre)
     iniciar(lst_ctr)
+
+    
+if __name__ == "__main__":
+    prueba()

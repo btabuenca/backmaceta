@@ -48,3 +48,15 @@ class EndPoint:
         print(resultado.content)
         
         return resultado
+    
+    def peticion_get(self):
+        mi_url = self.url
+        for k in self.subst:
+            mi_url = mi_url.replace(k, self.subst[k])
+
+        resultado = requests.get(mi_url, timeout=self.timeout_s)
+
+        print("peticion_get: Resultado=" + str(resultado))
+        print(resultado.json)
+
+        return resultado
