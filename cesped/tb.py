@@ -73,7 +73,7 @@ parámetros que se le pasan.
     for k in params:
         if k in TB_QUERY_ALARMAS_PARAMS_VALIDOS:
             parametros_ok[k] = params[k]
-    query_string = tb_query_alarmas(parametros_ok)
+    query_string = tb_query_alarmas(**parametros_ok)
 
     url_tb_epa = 'http://' + host + ':' + str(puerto) + TB_API_ALARMAS.replace('_TIPO_ALARMA_', tipo_alarma).replace('_DISPOSITIVO_', token_dispositivo) + query_string
 
