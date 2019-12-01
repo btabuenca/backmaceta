@@ -50,7 +50,7 @@ el token de dispositivo
     return ep.enviar_post_json
 
 
-def tb_func_consultar_alarmas(host, puerto, token_dispositivo, tipo_alarma, **parametros):
+def tb_func_consultar_alarmas(host, puerto, token_dispositivo, tipo_alarma, **params):
     '''Devuelve una función (sin parámetros) que obtiene (mediante método
 GET) del servidor thingsboard indicado por el host y el puerto, usando
 la API de alarmas del dispositivo indicado por el token de
@@ -70,12 +70,12 @@ parámetros que se le pasan.
     '''
     # filtrar los parámetros para incluir sólo los admitidos por la API thingsboard de alarmas
     parametros_ok = {}
-    for k in parametros:
+    for k in params:
         if k in TB_QUERY_ALARMAS_PARAMS_VALIDOS:
-            parametros_ok[k] = parametros[k]
+            parametros_ok[k] = params[k]
     query_string = tb_query_alarmas(parametros_ok)
 
-    url_tb_epa = 'http://' + host + ':' + str(puerto) + TB_API_ALARMAS.replace('_TIPO_ALARMA_', tipo_alarma).replace('_DISPOSITIVO_', token_dispositivo) + query_string)
+    url_tb_epa = 'http://' + host + ':' + str(puerto) + TB_API_ALARMAS.replace('_TIPO_ALARMA_', tipo_alarma).replace('_DISPOSITIVO_', token_dispositivo) + query_string
 
     ep = cep.EndPoint(url_tb_epa)
 
