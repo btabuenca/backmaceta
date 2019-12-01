@@ -1,18 +1,18 @@
 # -*- mode: python; coding: utf-8 -*-
 #
 ###########################################################################
-# Filename:    utilidades.py
+# Fichero:    utilidades.py
 # -------------------------------------------------------------------------
-# Project:     C.E.S.P.E.D.
-# Author:      José L. Domenech
-# Description:
+# Proyecto:     C.E.S.P.E.D.
+# Autor:      José L. Domenech
+# Descripcion:
 #
 #   Varias utilidades
 #
 # Requiere:    random, time
 # -------------------------------------------------------------------------
 # Historia:
-#   + 05/11/2019 - First version
+#   + 05/11/2019 - Primera version
 ###########################################################################
 
 import random

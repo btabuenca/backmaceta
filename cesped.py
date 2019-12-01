@@ -2,7 +2,7 @@
 # -*- mode: python; coding: utf-8 -*-
 #
 ###########################################################################
-# Filename:    cesped.sh
+# Filename:    cesped.py
 # -------------------------------------------------------------------------
 # Project:     C.E.S.P.E.D.
 # Author:      José L. Domenech
@@ -17,17 +17,7 @@ import cesped
 
 def configurar():
     '''devuelve una lista de `cesped.Controlador' '''
-    ep = cesped.endpoint.EndPoint(
-        cesped.configure.ENDPOINT_THINGSBOARD,
-        TOKENAQUI=cesped.configure.ENDPOINT_THINGSBOARD_TOKEN)
-
-    ctrl = cesped.controlador.Controlador(
-        'temperature',
-        f_envio=ep.enviar_post_json,
-        f_lector=cesped.utilidades.constantemente(20.1))
-
-    return [ctrl]
-
+    return cesped.configurar.lista_controladores()
 
 def iniciar(lst_ctrl):
     '''inicia todos los controladores incluidos en la lista, haciendo que

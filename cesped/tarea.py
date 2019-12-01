@@ -3,9 +3,9 @@
 ###########################################################################
 # Filename:    tarea.py
 # -------------------------------------------------------------------------
-# Project:     C.E.S.P.E.D.
-# Author:      José L. Domenech
-# Description:
+# Proyecto:     C.E.S.P.E.D.
+# Autor:      José L. Domenech
+# Descripcion:
 #
 #   Ejecuta una función (sin parámetros) de forma periódica (cada N
 #   segundos o fracción de segundo)
@@ -13,7 +13,7 @@
 # Requiere:    threading, time
 # -------------------------------------------------------------------------
 # Historia:
-#   + 05/11/2019 - First version
+#   + 05/11/2019 - Primera version
 ###########################################################################
 
 import threading

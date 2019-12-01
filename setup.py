@@ -1,17 +1,16 @@
 # -*- mode: python; coding: utf-8 -*-
 #
 ################################################################################
-# Filename:    setup.py
+# Fichero:    setup.py
 #-------------------------------------------------------------------------------
-# Project:     C.E.S.P.E.D.
-# Author:      José L. Domenech
-# Description:
-#  Main entry point to the system.
-#   - configure the system
-#   - start the system
+# Proyecto:     C.E.S.P.E.D.
+# Autor:      José L. Domenech
+# Descripcion:
+#  Entrada principal
+#   - configurar el sistema
 #-------------------------------------------------------------------------------
 # Historia:
-#   + 05/11/2019 - First version
+#   + 05/11/2019 - Primera version
 ################################################################################
 
 from setuptools import setup

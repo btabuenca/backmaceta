@@ -1,11 +1,11 @@
 # -*- mode: python; coding: utf-8 -*-
 #
 ###########################################################################
-# Filename:    endpoint.py
+# Ficjero:    endpoint.py
 # -------------------------------------------------------------------------
-# Project:     C.E.S.P.E.D.
-# Author:      José L. Domenech
-# Description:
+# Proyecto:     C.E.S.P.E.D.
+# Autor:      José L. Domenech
+# Descripcion:
 #
 #   Define un EndPoint, como una url y los parámetros necesarios, con
 #   el que se puede realizar una petición POST para enviar datos que
@@ -14,11 +14,11 @@
 # Requiere:   requests, json (usado por requests)
 # -------------------------------------------------------------------------
 # Historia:
-#   + 05/11/2019 - First version
+#   + 05/11/2019 - Primera version
 ###########################################################################
 
 import requests
-
+import os
 
 class EndPoint:
 
@@ -44,8 +44,9 @@ class EndPoint:
 
         resultado = requests.post(mi_url, timeout=self.timeout_s, json=dato)
 
-        print("enviar_post_json: Resultado=" + str(resultado))
-        print(resultado.content)
+        if (os.getenv('DEBUG_CESPED')):
+            print("enviar_post_json: Resultado=" + str(resultado))
+            print(resultado.content)
         
         return resultado
     
@@ -56,7 +57,8 @@ class EndPoint:
 
         resultado = requests.get(mi_url, timeout=self.timeout_s)
 
-        print("peticion_get: Resultado=" + str(resultado))
-        print(resultado.json)
+        if (os.getenv('DEBUG_CESPED')):
+            print("peticion_get: Resultado=" + str(resultado))
+            print(resultado.json)
 
         return resultado

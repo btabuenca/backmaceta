@@ -1,20 +1,19 @@
 # -*- mode: python; coding: utf-8 -*-
 #
 ###########################################################################
-# Filename:    controlador.py
+# Fichero:    controlador.py
 # -------------------------------------------------------------------------
-# Project:     C.E.S.P.E.D.
-# Author:      José L. Domenech
-# Description:
+# Proyecto:     C.E.S.P.E.D.
+# Autor:      José L. Domenech
+# Descripcion:
 #
 #   Controla un sensor, permite la lectura de datos (tras indicarle un
 #   método para leerlo y calcularlo) y su envio (indicale una función
 #   de endpoint) y su ejecución automatizada cada X ms
 #
-#
 # -------------------------------------------------------------------------
 # Historia:
-#   + 05/11/2019 - First version
+#   + 05/11/2019 - Primera version
 ###########################################################################
 
 import cesped.utilidades as utils
