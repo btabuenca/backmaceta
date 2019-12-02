@@ -22,9 +22,10 @@ import os
 
 class EndPoint:
 
-    def __init__(self, url, timeout_s=3.0, **kwargs):
+    def __init__(self, url, timeout_s=3.0, sesion=None, **kwargs):
         '''url:     string
            timeout_s: tiempo de espera antes de cerrar la conexión (3 s)
+           sesion:    objeto de tipo requests.Session ó None (por defecto)
            kwargs:  se usará como dict con keys como strings que se
                     sustituiran por su valor en la url
 
@@ -34,6 +35,7 @@ class EndPoint:
         self.url       = url
         self.timeout_s = timeout_s
         self.subst     = kwargs
+        self.sesion    = sesion
 
     def enviar_post_json(self, dato):
         '''envia un `dato' que será previamente convertido a formato JSON'''
@@ -42,7 +44,10 @@ class EndPoint:
         for k in self.subst:
             mi_url = mi_url.replace(k, self.subst[k])
 
-        resultado = requests.post(mi_url, timeout=self.timeout_s, json=dato)
+        if self.sesion is None:
+            resultado = requests.post(mi_url, timeout=self.timeout_s, json=dato)
+        else:
+            resultado = self.sesion.post(mi_url, timeout=self.timeout_s, json=dato)
 
         if (os.getenv('DEBUG_CESPED')):
             print("enviar_post_json: Resultado=" + str(resultado))
@@ -55,7 +60,10 @@ class EndPoint:
         for k in self.subst:
             mi_url = mi_url.replace(k, self.subst[k])
 
-        resultado = requests.get(mi_url, timeout=self.timeout_s)
+        if self.sesion is None:
+            resultado = requests.get(mi_url, timeout=self.timeout_s)
+        else:
+            resultado = self.sesion.get(mi_url, timeout=self.timeout_s)
 
         if (os.getenv('DEBUG_CESPED')):
             print("peticion_get: Resultado=" + str(resultado))
