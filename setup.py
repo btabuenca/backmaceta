@@ -17,7 +17,7 @@ from setuptools import setup
 
 setup(
     name='cesped',
-    version='0.1.0',    
+    version='0.1.1',
     description='''Control y Exposición de un Sistema de Pradera Ecológica Durable
 (C.E.S.P.E.D.)
 
@@ -27,15 +27,17 @@ Informáticos de la Universidad Politécnica de Madrid''',
     url='https://github.com/jldm.upm/cesped',
     author='José L. Domenech',
     author_email='jldm.upm@google.es',
-    packages=['cesped','cesped_tests'],
+    packages=['cesped', 'cesped_tests'],
+    scripts=['bash_scripts/cesped.sh'],
     install_requires=['json',
-                      'requests',                     
+                      'requests',
+                      'mraa',
                       ],
 
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
-        'Operating System :: POSIX :: Linux',        
+        'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',

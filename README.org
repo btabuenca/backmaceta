@@ -11,7 +11,7 @@ Informáticos (ETSISI) de la Universidad Politécnica de Madrid (UPM)
 ** Uso
 
 #+BEGIN_SRC sh
-pip3 install cesped
+pip3 install -e .
 
 cesped.sh
 #+END_SRC
