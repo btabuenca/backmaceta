@@ -4,3 +4,4 @@ from . import tarea
 from . import controlador
 from . import configurar
 from . import tb
+from . import dispositivos
