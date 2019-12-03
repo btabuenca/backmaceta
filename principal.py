@@ -12,12 +12,14 @@
 #   + 05/11/2019 - First version
 ###########################################################################
 
-import cesped
+import cesped.configurar as conf
 
 
 def configurar():
-    '''devuelve una lista de `cesped.Controlador' '''
-    return cesped.configurar.lista_controladores()
+    '''Devuelve una lista de `cesped.Controlador' '''
+    lst_ctrl = conf.lista_controladores()
+    return lst_ctrl
+
 
 def iniciar(lst_ctrl):
     '''inicia todos los controladores incluidos en la lista, haciendo que
@@ -40,7 +42,7 @@ Devuelve la misma lista con los controladores ya parados'''
         ctrl.parar()
 
 
-def prueba():
+def principal():
     print("Iniciando controladores:")
     lst_ctr = configurar()
     for c in lst_ctr:
@@ -49,4 +51,4 @@ def prueba():
 
     
 if __name__ == "__main__":
-    prueba()
+    principal()

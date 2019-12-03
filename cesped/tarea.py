@@ -33,6 +33,7 @@ class Tarea(threading.Thread):
 
     def run(self):
         ''' `Thread.run' (forma parte de la API de `threading.Thread')'''
+        time.sleep(self.periodo / utils.FLOAT_MS_IN_SEG)
         while getattr(self, "ejecutando", True):
             t1 = utils.timestamp()
             self.funcion()
