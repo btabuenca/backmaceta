@@ -20,12 +20,18 @@
 import mraa
 import time
 
+SHT85_DIRECCION = 0x44
 
-def SHT85(bus):
-    SHT85_DIRECCION = 0x44
-    SHT85_CMD_LECTURA_LENTA = bytearray(b'\x24\x16')
-    SHT85_TIEMPO_LECTURA_MAX = 0.045  # segundos
+SHT85_CMD_ID_DISPOSITIVO = bytearray(b'\x36\x82')
+SHT85_CMD_LECTURA_LENTA = bytearray(b'\x24\x16')
 
+SHT85_TIEMPO_ACK_MAX = 0.0015  # segundos = 1.5 ms
+SHT85_TIEMPO_ID_DISPOSITVO = 0.0005  # segundos = 0.5 ms
+SHT85_TIEMPO_LECTURA_PETICION = 0.001  # segundos = 1 ms
+SHT85_TIEMPO_LECTURA_OS_MAX = 0.0155  # segundos = 15.5 ms
+
+
+def SHT85_ID(bus):
     # inicializar I2C
     i2c = mraa.I2c(bus)
 
@@ -33,14 +39,45 @@ def SHT85(bus):
         print('.', end='')
         time.sleep(1)
     print()
-        
+
+    # ============================================
+    # lectura del ID del dispositivo
+    error = i2c.address(SHT85_DIRECCION)
+    # TODO: comprobar error
+    print('A_ERROR: ' + str(error))
+    ack = i2c.write(SHT85_CMD_ID_DISPOSITIVO)
+    time.sleep(SHT85_TIEMPO_ID_DISPOSITVO)
+    print('ACK:     ' + str(ack))
+
+    error = i2c.address(SHT85_DIRECCION)
+    # TODO: comprobar error
+    print('A_ERROR: ' + str(error))
+    res = i2c.read(6)
+    time.sleep(SHT85_TIEMPO_ID_DISPOSITVO)
+    print('READ(6): ' + str(res))
+
+    return res
+
+
+def SHT85_t_d(bus):
+    # inicializar I2C
+    i2c = mraa.I2c(bus)
+
+    for i in range(1, 5):
+        print('.', end='')
+        time.sleep(1)
+    print()
+    
+    # ============================================
+    # lectura single-shot de humedad y temperatura
+    
     # iniciar el proceso de lectura
     # enviar comando de escritura
     error = i2c.address(SHT85_DIRECCION)
     # TODO: comprobar error
     print('A_ERROR: ' + str(error))
     ack = i2c.write(SHT85_CMD_LECTURA_LENTA)
-    time.sleep(SHT85_TIEMPO_LECTURA_MAX)
+    time.sleep(SHT85_TIEMPO_LECTURA_PETICION)
 
     print('ACK:     ' + str(ack))
 
@@ -48,14 +85,10 @@ def SHT85(bus):
     # TODO: comprobar error
     print('A_ERROR: ' + str(error))
     res = i2c.read(0)
-
+    time.sleep(SHT85_TIEMPO_LECTURA_OS_MAX)
     print('READ(0): ' + str(res))
-
-    time.sleep(SHT85_TIEMPO_LECTURA_MAX)
     res = i2c.read(6)
-
+    time.sleep(SHT85_TIEMPO_LECTURA_OS_MAX)
     print('READ(6): ' + str(res))
-
-    time.sleep(SHT85_TIEMPO_LECTURA_MAX)
-
+    
     return res
