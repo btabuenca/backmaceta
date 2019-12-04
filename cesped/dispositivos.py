@@ -1,96 +1,74 @@
-# -*- mode: python; coding: utf-8 -*-
-#
-###########################################################################
-# Fichero:    dispositivos.py
-# -------------------------------------------------------------------------
-# Proyecto:     C.E.S.P.E.D.
-# Autor:      José L. Domenech
-# Descripcion:
-#
-#   Proporciona funciones para la lectura de dispositivos:
-#    + SHT85 - lectura del sensor SHT85 (conexión I2C)
-#      - SHT85_ID - leer ID del dispositivo
-#      - SHT85_t_d - leer temperatura y humedad
-#
-# Requiere:
-#   mraa
-# -------------------------------------------------------------------------
-# Historia:
-#   + 02/12/2019 - Primera version
-###########################################################################
 
-#import mraa
+#!/usr/bin/python
+
+import mraa as m
+import spidev
 import time
+ 
+def leerAdc(adcnum):
+    #Inicializar SPI
+    spi = spidev.SpiDev()
+    spi.open(1, 0)
+    # leer datos , 4 canales del MCP3004
+    if adcnum > 7 or adcnum < 0:
+        return -1
+    r = spi.xfer2([1, 8 + adcnum << 4, 0])
+    data = ((r[1] & 3) << 8) + r[2]
+    return data    
 
-SHT85_DIRECCION = 0x44
+def leerGoteo():
+    canal_gotas = 1
+    valor_gotas=leerAdc(canal_gotas)
+    
+    if valor_gotas < 300:
+        apagarValvula()
+    
+    return valor_gotas
 
-SHT85_CMD_ID_DISPOSITIVO = bytearray(b'\x36\x82')
-SHT85_CMD_LECTURA_LENTA = bytearray(b'\x24\x16')
+def leerLDR():
+    canal_ldr = 0
+    valor_ldr=leerAdc(canal_ldr)
+    encenderLed(valor_ldr)
+    return valor_ldr
 
-SHT85_TIEMPO_ACK = 0.0015  # segundos = 1.5 ms
-SHT85_TIEMPO_ID_DISPOSITVO = 0.0005  # segundos = 0.5 ms
-SHT85_TIEMPO_LECTURA_PETICION = 0.001  # segundos = 1 ms
-SHT85_TIEMPO_LECTURA_TH = 0.0155  # segundos = 15.5 ms
+def encenderLed(valor):
+    #variables rgb e inicializacion de pines RGB
+    rojo=40        #corresponde al pin de la placa
+    verde=36    #corresponde al pin de la placa
+    azul=38        #corresponde al pin de la placa
+    pin_r=m.Gpio(rojo)
+    pin_b=m.Gpio(azul)
+    pin_r.dir(m.DIR_OUT)
+    pin_b.dir(m.DIR_OUT)
+    if valor > 800:
+        pin_r.write(1)
+        pin_b.write(1)
+    else:
+        pin_r.write(0)
+        pin_b.write(0)
 
+def encenderValvula():
+    pin_rele = m.Gpio(37)
+    pin_rele.write(1)
 
-def SHT85_ID(bus):
-    # inicializar I2C
-    i2c = mraa.I2c(bus)
-
-    # for i in range(1, 5):
-    #     print('.', end='')
-    #     time.sleep(1)
-    # print()
-
-    # ============================================
-    # lectura del ID del dispositivo
-    error = i2c.address(SHT85_DIRECCION)
-    # TODO: comprobar error
-    print('A_ERROR: ' + str(error))
-    ack = i2c.write(SHT85_CMD_ID_DISPOSITIVO)
-    time.sleep(SHT85_TIEMPO_ID_DISPOSITVO)
-    print('ACK:     ' + str(ack))
-
-    error = i2c.address(SHT85_DIRECCION)
-    # TODO: comprobar error
-    print('A_ERROR: ' + str(error))
-    res = i2c.read(6)
-    time.sleep(SHT85_TIEMPO_ID_DISPOSITVO)
-    print('READ(6): ' + str(res))
-
-    return res
+    
+def apagarValvula():
+    pin_rele = m.Gpio(37)
+    pin_rele.write(0)
 
 
-def SHT85_t_d(bus):
-    # inicializar I2C
-    i2c = mraa.I2c(bus)
+def leerHumedad1()
+    canal_humedad_suelo_1=2
+    valor_humedad1=leerAdc(canal_humedad_suelo_1)
+    return valor_humedad1
 
-    # for i in range(1, 5):
-    #     print('.', end='')
-    #     time.sleep(1)
-    # print()
+def leerHumedad2()
+    canal_humedad_suelo_2=3
+    valor_humedad2=leerAdc(canal_humedad_suelo_2)
+    return valor_humedad2
 
-    # ============================================
-    # lectura single-shot de humedad y temperatura
-
-    # iniciar el proceso de lectura
-    # enviar comando de escritura
-    error = i2c.address(SHT85_DIRECCION)
-    # TODO: comprobar error
-    print('A_ERROR: ' + str(error))
-    ack = i2c.write(SHT85_CMD_LECTURA_LENTA)
-    time.sleep(SHT85_TIEMPO_LECTURA_PETICION)
-
-    print('ACK:     ' + str(ack))
-
-    error = i2c.address(SHT85_DIRECCION)
-    # TODO: comprobar error
-    print('A_ERROR: ' + str(error))
-    res = i2c.read(0)
-    time.sleep(SHT85_TIEMPO_LECTURA_TH)
-    print('READ(0): ' + str(res))
-    res = i2c.read(6)
-    time.sleep(SHT85_TIEMPO_LECTURA_TH)
-    print('READ(6): ' + str(res))
-
-    return res
+def leerPeso()
+    canal_peso=4
+    valor_peso=leerAdc(canal_peso)
+    valor_kilos=(valor_peso*18.41)/1000
+    return valor_kilos

@@ -83,6 +83,7 @@ El token de autorización se puede obtener con: curl -X POST --header 'Content-T
     for k in params:
         if k in TB_QUERY_ALARMAS_PARAMS_VALIDOS:
             parametros_ok[k] = params[k]
+    parametros_ok['limit']=limit
     query_string = tb_query_alarmas(**parametros_ok)
 
     sesion = requests.Session() if auth is not None else None
