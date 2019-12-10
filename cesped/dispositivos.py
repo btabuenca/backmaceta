@@ -19,7 +19,8 @@ def leerAdc(adcnum):
 def leerGoteo():
     canal_gotas = 1
     valor_gotas=leerAdc(canal_gotas)
-    
+
+    print("GOTAS:         " + str(valor_gotas))
     if valor_gotas < 300:
         apagarValvula()
     
@@ -40,7 +41,8 @@ def encenderLed(valor):
     pin_b=m.Gpio(azul)
     pin_r.dir(m.DIR_OUT)
     pin_b.dir(m.DIR_OUT)
-    if valor > 800:
+    print("Encender LED:  " + str(valor))
+    if valor > 650:
         pin_r.write(1)
         pin_b.write(1)
     else:
@@ -57,18 +59,19 @@ def apagarValvula():
     pin_rele.write(0)
 
 
-def leerHumedad1()
+def leerHumedad1():
     canal_humedad_suelo_1=2
     valor_humedad1=leerAdc(canal_humedad_suelo_1)
     return valor_humedad1
 
-def leerHumedad2()
+def leerHumedad2():
     canal_humedad_suelo_2=3
     valor_humedad2=leerAdc(canal_humedad_suelo_2)
     return valor_humedad2
 
-def leerPeso()
-    canal_peso=4
+def leerPeso():
+    canal_peso=6
     valor_peso=leerAdc(canal_peso)
-    valor_kilos=(valor_peso*18.41)/1000
+    valor_kilos=(valor_peso*18.41)/1000.0
+    print("PESO:          " + str(valor_kilos))
     return valor_kilos
